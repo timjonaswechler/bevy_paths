@@ -1,0 +1,18 @@
+[workspace]
+members = ["bevy_paths", "bevy_paths_derive"]
+resolver = "2"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+authors = ["Tim-Jonas Wechler"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/timjonaswechler/bevy_paths"
+
+[workspace.dependencies]
+bevy = { version = "0.17.2", default-features = false }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+bincode = "2.0.0-rc.3"
+thiserror = "1.0"
+semver = { version = "1.0", features = ["serde"] }
