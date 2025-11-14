@@ -7,12 +7,14 @@ license.workspace = true
 repository.workspace = true
 
 [dependencies]
-bevy = { workspace = true , features= ["bevy_log"]}
+bevy = { version = "0.17.2", default-features = false , features= ["bevy_log"]}
 bevy_paths_derive = { path = "../bevy_paths_derive" }
 thiserror = { version = "2.0.14", features = ["std"] }
 dirs = "4.0"
 unicode-normalization = "0.1"
+rust-embed = { version = "8.4", features = ["include-exclude"] }
+
 
 # For examples only
 [dev-dependencies]
-bevy = { workspace = true, features = ["bevy_render", "bevy_core_pipeline"] }
+bevy = { version = "0.17.2", default-features = false , features = ["bevy_render", "bevy_core_pipeline"] }
