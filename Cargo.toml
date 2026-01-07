@@ -1,18 +1,6 @@
-[package]
-name = "bevy_paths"
-version = "0.1.0"
-edition = "2024"
-authors = ["Tim-Jonas Wechler"]
-license = "MIT"
-repository = "https://github.com/timjonaswechler/bevy_paths"
-
-[dependencies]
-bevy_app = "0.17.3"
-bevy_ecs = "0.17.3"
-bevy_log = "0.17.3"
-thiserror = { version = "2.0.14", features = ["std"] }
-unicode-normalization = "0.1"
-
-[dev-dependencies]
-bevy_diagnostic = "0.17.3"
-bevy_time = "0.17.3"
+[workspace]
+resolver = "2"
+members = [
+    "bevy_paths",
+    "bevy_paths_derive",
+]

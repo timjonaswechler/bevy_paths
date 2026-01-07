@@ -1,0 +1,28 @@
+[package]
+name = "bevy_paths"
+version = "0.1.0"
+edition = "2024"
+authors = ["Tim-Jonas Wechler"]
+description = "A clean, type-safe, and cross-platform path management plugin for Bevy."
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/timjonaswechler/bevy_paths"
+documentation = "https://docs.rs/bevy_paths"
+keywords = ["bevy", "gamedev", "filesystem", "paths", "assets"]
+categories = ["game-development", "filesystem", "config"]
+
+[dependencies]
+bevy_app = "0.15.1"
+bevy_ecs = "0.15.1"
+bevy_log = "0.15.1"
+bevy_reflect = "0.15.1"
+thiserror = { version = "2.0.14", features = ["std"] }
+unicode-normalization = "0.1"
+
+# The local macro crate
+bevy_paths_derive = { version = "0.1.0", path = "../bevy_paths_derive" }
+
+[dev-dependencies]
+bevy = "0.15.1"
+bevy_diagnostic = "0.15.1"
+bevy_time = "0.15.1"
