@@ -1,6 +1,6 @@
 [package]
 name = "bevy_paths"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 authors = ["Tim-Jonas Wechler"]
 description = "A clean, type-safe, and cross-platform path management plugin for Bevy."
@@ -12,10 +12,10 @@ keywords = ["bevy", "gamedev", "filesystem", "paths", "assets"]
 categories = ["game-development", "filesystem", "config"]
 
 [dependencies]
-bevy_app = "0.15.1"
-bevy_ecs = "0.15.1"
-bevy_log = "0.15.1"
-bevy_reflect = "0.15.1"
+bevy_app = "0.17.3"
+bevy_ecs = "0.17.3"
+bevy_log = "0.17.3"
+bevy_reflect = "0.17.3"
 thiserror = { version = "2.0.14", features = ["std"] }
 unicode-normalization = "0.1"
 
@@ -23,6 +23,6 @@ unicode-normalization = "0.1"
 bevy_paths_derive = { version = "0.1.0", path = "../bevy_paths_derive" }
 
 [dev-dependencies]
-bevy = "0.15.1"
-bevy_diagnostic = "0.15.1"
-bevy_time = "0.15.1"
+bevy = "0.17.3"
+bevy_diagnostic = "0.17.3"
+bevy_time = "0.17.3"
