@@ -1,14 +1,4 @@
-//! `bevy_paths` is a clean, type-safe, and cross-platform path management plugin for Bevy.
-//!
-//! It allows you to define paths as Rust structs (Typed Paths) and automatically resolves them
-//! relative to a unified project root.
-
-#![deny(missing_docs)]
-#![warn(clippy::pedantic)]
-#![allow(clippy::module_name_repetitions)]
-#![allow(clippy::missing_errors_doc)]
-#![allow(clippy::must_use_candidate)]
-#![allow(clippy::return_self_not_must_use)]
+#![warn(missing_docs)]
 
 mod error;
 pub use error::PathRegistrationError;
