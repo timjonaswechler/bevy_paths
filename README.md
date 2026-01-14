@@ -76,16 +76,6 @@ fn check_paths(registry: Res<PathRegistry>) {
 }
 ```
 
-### Optional: Registration
-
-While not required, you can explicitly register paths at startup. This validates your templates (checking for invalid characters or reserved filenames) immediately when the app starts, rather than waiting for the first use.
-
-```rust
-PathRegistryPlugin::new("MyStudio", "MyGame", "Client")
-    .register::<SettingsFile>()
-    .register::<DungeonMap>()
-```
-
 ## Guarantees
 
 - **No Traversal:** `..` and `.` components are forbidden to prevent directory traversal attacks or messiness.

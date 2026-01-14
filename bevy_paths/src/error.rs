@@ -1,8 +1,6 @@
-// error.rs
-
 use std::io;
 use std::path::PathBuf;
-use thiserror::Error; // Füge `thiserror = "1.0"` zu deiner Cargo.toml hinzu
+use thiserror::Error;
 
 /// Errors that can occur during path registration and validation.
 #[derive(Debug, Error)]

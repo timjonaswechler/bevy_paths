@@ -1,10 +1,58 @@
 #![warn(missing_docs)]
+//! A clean, type-safe, and cross-platform path management plugin for [Bevy](https://bevyengine.org/).
+//!
+//! ## Why `bevy_paths`?
+//!
+//! Managing file paths can quickly become a pain.
+//! Hardcoded paths like `"assets/levels/level1.map"` are prone to typos, lacks context and can break across different platforms.
+//!
+//! `bevy_paths` solves this by introducing a **centralized path registry** and ensuring **type safety**.
+//!
+//! ## Features
+//!
+//! - **Ergonomic API:** Define paths as Rust structs. No string literals in your systems.
+//! - **Type-Safe Templates:** Dynamic paths use struct fields (e.g., `id: u8`) to automatically populate templates.
+//! - **Cross-Platform Safety:** Automatically handles OS-specific separators and implements validation for common naming constraints.
+//! - **Project-Aware:** Keeps your data organized under a unified project root (`<base>/<studio>/<project>`).
+//!
+//! ## Usage
+//!
+//! 1. Add the **Plugin** to your App.
+//! 2. Define your paths using the `#[file(...)]` macro.
+//! 3. Resolve them using the `PathRegistry` resource.
+//!
+//! ```rust
+//! use bevy::prelude::*;
+//! use bevy_paths::prelude::*;
+//!
+//! // 1. Define a dynamic path
+//! #[derive(Path, Reflect)]
+//! #[file("save/{save_name}/region_{x}_{y}.map")]
+//! struct RegionMap {
+//!     save_name: String,
+//!     x: u32,
+//!     y: u32
+//! }
+//!
+//! fn main() {
+//!     App::new()
+//!         .add_plugins(DefaultPlugins)
+//!         // 2. Initialize the plugin with your project details
+//!         .add_plugins(PathRegistryPlugin::new("MyStudio", "MyGame", "App"))
+//!         .run();
+//! }
+//!
+//! fn load_system(registry: Res<PathRegistry>) {
+//!     let map = RegionMap { save_name: "MySaveGame".into(), x: 10, y: 20 };
+//!
+//!     // 3. Resolve to: ".../MyStudio/MyGame/save/MySaveGame/region_10_20.map"
+//!     let path = registry.resolve(&map);
+//! }
+//!
 
 mod error;
-pub use error::PathRegistrationError;
 
-// Re-export the derive macro
-pub use bevy_paths_derive::Path;
+pub use {bevy_paths_derive::Path, error::PathRegistrationError};
 
 use {
     bevy_app::{App, Plugin},

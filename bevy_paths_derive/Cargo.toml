@@ -1,7 +1,7 @@
 [package]
 name = "bevy_paths_derive"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 description = "Derive macros for bevy_paths"
 license = "MIT"
 
