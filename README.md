@@ -16,7 +16,7 @@ In game development, handling file paths cleanly is surprisingly hard. You often
 - **Ergonomic API:** Define paths as Rust structs. No string literals in your systems.
 - **Type-Safe Templates:** Dynamic paths use struct fields (e.g., `id: u8`) to automatically populate templates.
 - **Cross-Platform Safety:** Automatically handles OS-specific separators and implements validation for common naming constraints.
-- **Project-Aware:** Keeps your data organized under a unified project root (`<base>/<studio>/<project>`).
+
 
 ## Usage
 
@@ -43,36 +43,15 @@ struct DungeonMap {
 }
 ```
 
-### 2. Configure the Plugin
-
-Add the plugin to your app. You specify the Studio, Game, and App IDs to construct the root path.
+### 2. Resolve Paths in Systems
 
 ```rust
-fn main() {
-    App::new()
-        .add_plugins(DefaultPlugins)
-        .add_plugins(PathRegistryPlugin::new("MyStudio", "MyGame", "Client"))
-        .add_systems(Startup, check_paths)
-        .run();
-}
-```
-
-### 3. Resolve Paths in Systems
-
-Inject the `PathRegistry` resource to resolve your typed paths into absolute `PathBuf`s.
-
-```rust
-fn check_paths(registry: Res<PathRegistry>) {
-    // 1. Resolve Static Path
-    // Returns: .../MyStudio/MyGame/saves/settings.ini
-    let settings_path = registry.resolve(&SettingsFile);
+fn check_paths( _ : Commands) {
+    // 1. Create a varibale of the path struct defined before. 
+    let map = RegionMap { save_name: "MySaveGame".into(), x: 10, y: 20 };
     
-    // 2. Resolve Dynamic Path
-    // Returns: .../MyStudio/MyGame/levels/swamp/dungeon_5.map
-    let dungeon_path = registry.resolve(&DungeonMap {
-        region: "swamp".to_string(),
-        id: 5,
-    });
+    // 2. Resolve to: ".../save/MySaveGame/region_10_20.map"
+    let path = map.resolve().expect("Failed to resolve path");
 }
 ```
 

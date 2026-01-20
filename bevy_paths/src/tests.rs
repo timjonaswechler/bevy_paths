@@ -1,5 +1,7 @@
 use super::*;
+use bevy_paths_validation::*;
 use bevy_reflect::Reflect;
+use std::path::PathBuf;
 
 // We need to implement TypedPath manually for tests if we want to avoid
 // potential issues with the derive macro inside the crate's own unit tests
@@ -10,9 +12,8 @@ use bevy_reflect::Reflect;
 struct SavePath;
 
 impl TypedPath for SavePath {
-    fn template() -> &'static str {
-        "saves/slot_1"
-    }
+    const TEMPLATE: &'static str = "saves/slot_1";
+    const PLACEHOLDERS: &'static [&'static str] = &[];
 }
 
 #[derive(Reflect)]
@@ -21,9 +22,8 @@ struct DynamicLevel {
 }
 
 impl TypedPath for DynamicLevel {
-    fn template() -> &'static str {
-        "levels/{id}/map.dat"
-    }
+    const TEMPLATE: &'static str = "levels/{id}/map.dat";
+    const PLACEHOLDERS: &'static [&'static str] = &["id"];
 }
 
 #[derive(Reflect)]
@@ -33,57 +33,37 @@ struct MultiVarPath {
 }
 
 impl TypedPath for MultiVarPath {
-    fn template() -> &'static str {
-        "chunks/{x}_{y}.dat"
-    }
-}
-
-#[test]
-fn test_project_root_construction() {
-    let base = PathBuf::from("/tmp/base");
-    let registry = PathRegistry::new("MyStudio", "MyGame", "Client", base.clone());
-
-    let root = registry.project_root();
-    let expected = base.join("MyStudio").join("MyGame");
-    assert_eq!(root, expected);
+    const TEMPLATE: &'static str = "chunks/{x}_{y}.dat";
+    const PLACEHOLDERS: &'static [&'static str] = &["x", "y"];
 }
 
 #[test]
 fn test_static_path_resolution() {
-    let base = PathBuf::from("/base");
-    let registry = PathRegistry::new("S", "P", "A", base);
+    let save_dir = SavePath;
+    let resolved = save_dir.resolve().expect("error to resolve");
 
-    let resolved = registry.resolve(&SavePath);
-    // Project root is /base/S/P
-    let expected = PathBuf::from("/base/S/P/saves/slot_1");
-    assert_eq!(resolved, expected);
+    let expected = PathBuf::from("saves/slot_1");
+    assert!(resolved.ends_with(expected));
 }
 
 #[test]
 fn test_dynamic_path_resolution() {
-    let base = PathBuf::from("/base");
-    let registry = PathRegistry::new("S", "P", "A", base);
-
     let level = DynamicLevel {
         id: "dungeon_1".to_string(),
     };
-    let resolved = registry.resolve(&level);
+    let resolved = level.resolve().unwrap();
 
-    let expected = PathBuf::from("/base/S/P/levels/dungeon_1/map.dat");
-    assert_eq!(resolved, expected);
+    let expected = PathBuf::from("levels/dungeon_1/map.dat");
+    assert!(resolved.ends_with(expected));
 }
 
 #[test]
 fn test_multi_variable_resolution() {
-    let base = PathBuf::from("/base");
-    let registry = PathRegistry::new("S", "P", "A", base);
-
     let chunk = MultiVarPath { x: 10, y: -5 };
-    let resolved = registry.resolve(&chunk);
+    let resolved = chunk.resolve().unwrap();
 
-    // Should resolve to chunks/10_-5.dat
-    let expected = PathBuf::from("/base/S/P/chunks/10_-5.dat");
-    assert_eq!(resolved, expected);
+    let expected = PathBuf::from("chunks/10_-5.dat");
+    assert!(resolved.ends_with(expected));
 }
 
 #[test]

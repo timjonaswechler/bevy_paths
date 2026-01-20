@@ -1,0 +1,8 @@
+[package]
+name = "bevy_paths_validation"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+unicode-normalization = "0.1"
+thiserror = "1.0"
